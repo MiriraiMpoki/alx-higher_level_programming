@@ -1,12 +1,3 @@
 #!/usr/bin/python3
-
-
 def square_matrix_simple(matrix=[]):
-    if matrix:
-        result = []
-        for row in matrix:
-            squared = []
-            for x in row:
-                squared.append(x ** 2)
-            result.append(squared)
-    return result
+    return [list(map(lambda x: x**2, row)) for row in matrix]

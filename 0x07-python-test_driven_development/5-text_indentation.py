@@ -1,20 +1,22 @@
 #!/usr/bin/python3
-
-"""
-This module contains text_indentation function
+"""Module for text_indentation
 """
 
 
 def text_indentation(text):
+    """Function that print the square with the # symbol.
+
+    Args:
+        size (int, float > 0): is a size of the square.
+
+    Returns:
+        Nothing
+        Print the square of the size given, or Error
+        message if the data entry not are int.
     """
-    Prints text after the characters ., ? , : in addition to 2 new lines
-    """
-    if not isinstance(text, str):
+    if type(text) is not str:
         raise TypeError("text must be a string")
-    beg = 0
-    for i, c in enumerate(text):
-        if i == len(text) - 1:
-            print(text[beg:i + 1].strip(), end="")
-        elif c in ".?:":
-            print(text[beg:i + 1].strip(), end="\n\n")
-            beg = i + 1
+    text = text.replace(". ", ".\n\n")
+    text = text.replace("? ", "?\n\n")
+    text = text.replace(": ", ":\n\n")
+    print(text)

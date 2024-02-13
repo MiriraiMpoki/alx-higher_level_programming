@@ -1,56 +1,59 @@
 #!/usr/bin/python3
-
-"""
-Square Module
-"""
-
+'''this class inherits from rectangle'''
 from models.rectangle import Rectangle
 
 
 class Square(Rectangle):
-    """Class Square"""
-
+    '''inherits from Rectangle'''
     def __init__(self, size, x=0, y=0, id=None):
-        """Initialization of teh class"""
+        '''method init use method of the super class'''
         super().__init__(size, size, x, y, id)
 
     def __str__(self):
-        """Returns a string representation of the class"""
-        return "[Square] ({}) {}/{} - {}".format(
-            self.id, self.x, self.y, self.width)
+        '''overwrite method str'''
+        return "[{}] ({}) {}/{} - {}".format(
+            self.__class__.__name__, self.id, self.x,
+            self.y, self.width)
 
     @property
     def size(self):
-        """Size getter"""
+        '''this method set the size'''
         return self.width
 
     @size.setter
-    def size(self, size):
-        """Size setter"""
-        self.width = size
-        self.height = size
+    def size(self, value):
+        '''this method the size'''
+        self.width = value
+        self.height = value
 
     def update(self, *args, **kwargs):
-        """Assign an argument to all attributes"""
-        if args:
-            attrs = ["id", "size", "x", "y"]
-            for i, e in enumerate(args):
-                setattr(self, attrs[i], e)
-            return
-        for x, y in kwargs.items():
-            if hasattr(self, x):
-                setattr(self, x, y)
+        '''update arguments of the square'''
+        args_sq = []
+        for idx in range(len(args)):
+            if idx == 0:
+                args_sq.append(args[idx])
+            elif idx == 1:
+                args_sq.append(args[idx])
+                args_sq.append(args[idx])
+            elif idx == 2:
+                args_sq.append(args[idx])
+            elif idx == 3:
+                args_sq.append(args[idx])
+
+        if len(kwargs) != 0:
+            kwargs_cp = kwargs.copy()
+            for key in kwargs_cp:
+                if key == "size":
+                    kwargs["width"] = kwargs[key]
+                    kwargs["height"] = kwargs[key]
+
+        super().update(*args_sq, **kwargs)
 
     def to_dictionary(self):
-        """Returns a dictionary representation of the class"""
-        d = {}
-        for x, y in vars(self).items():
-            if x.startswith("_"):
-                if not x.endswith("width") and not x.endswith("height"):
-                    idx = x.index("__")
-                    d[x[idx + 2:]] = y
-                else:
-                    d["size"] = y
-            else:
-                d[x] = y
-        return d
+        '''this method return a dictionary'''
+        new_dict = {}
+        new_dict["x"] = self.__dict__["_Rectangle__x"]
+        new_dict["y"] = self.__dict__["_Rectangle__y"]
+        new_dict["size"] = self.__dict__["_Rectangle__width"]
+        new_dict["id"] = self.__dict__["id"]
+        return new_dict

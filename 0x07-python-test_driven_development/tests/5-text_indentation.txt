@@ -1,51 +1,26 @@
-text_indentation module
------------------------
+The ``5-text_indentation`` module
+======================
 
-Importing "text_indentation"
-----------------------------
+Using ``text_indentation``
+-------------------
 
-Import file
->>> text_indentation = __import__('5-text_indentation').text_indentation
+This test text file is for function text_indentation.  First import
+``text_indentation`` from the ``5-text_indentation`` module:
 
-Testing for valid input
->>> test_string = "adipiscing elit. Quonam modo?"
->>> text_indentation(test_string)
-adipiscing elit.
-<BLANKLINE>
-Quonam modo?
+    >>> text_indentation = __import__('5-text_indentation').text_indentation
 
-Testing for invalid input
->>> text_indentation(123)
-Traceback (most recent call last):
-TypeError: text must be a string
+Now use it:
 
-Testing for strings with leading spaces
->>> text_indentation("    hello")
-hello
-
-Testing for strings with trailing spaces
->>> text_indentation("world      ")
-world
-
-Testing for empty strings
->>> text_indentation("")
-
-Testing for repeating delimiters
->>> text_indentation("  hello .?. world   ")
-hello .
-<BLANKLINE>
-?
-<BLANKLINE>
-.
-<BLANKLINE>
-world
-
-Testing for repeating delimiters with whitespace within
->>> text_indentation("hello .    ?    .  world")
-hello .
-<BLANKLINE>
-?
-<BLANKLINE>
-.
-<BLANKLINE>
-world
+    >>> text_indentation("""Lorem ipsum dolor sit amet, consectetur adipiscing elit. \
+    ... Quonam modo? Utrum igitur tibi litteram videor an totas paginas commovere? """)
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    <BLANKLINE>
+    Quonam modo?
+    <BLANKLINE>
+    Utrum igitur tibi litteram videor an totas paginas commovere?
+    <BLANKLINE>
+    <BLANKLINE>
+    >>> text_indentation(5)
+    Traceback (most recent call last):
+    ...
+    TypeError: text must be a string

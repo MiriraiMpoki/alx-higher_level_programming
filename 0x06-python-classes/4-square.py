@@ -1,32 +1,40 @@
 #!/usr/bin/python3
-"""
-    4-square.py
-    This module defines the square
-    return {}
-"""
-
-
-class Square():
-    """Square class"""
-
+class Square:
+    """Class with a instance private attribute, with optional value 0
+        validate type and value > to 0, send a message Error using raised
+        and define a method to calculate area of square
+    """
     def __init__(self, size=0):
-        """Initializing class"""
-        self.size = size
+        """init method
+        Args:
+        size (int): Size of the square object
+        """
+        self.__size = size
 
     def area(self):
-        """Returning the area of the square"""
-        return self.__size ** 2
+        """Method to calculate area
+        Args:
+            Return self.__size**2
+        """
+        return self.__size**2
 
     @property
     def size(self):
-        """Retrieving the size of Square"""
+        """Method to get the size
+        Args:
+            size (int): Size of the square object
+        """
         return self.__size
 
     @size.setter
     def size(self, value):
-        """Setting the size of the Square"""
-        if not isinstance(value, int):
+        """Method to set the size
+        Args:
+            size (int): Size of the square object
+        """
+        if type(value) is not int:
             raise TypeError("size must be an integer")
-        if value < 0:
+        elif value < 0:
             raise ValueError("size must be >= 0")
-        self.__size = value
+        else:
+            self.__size = value

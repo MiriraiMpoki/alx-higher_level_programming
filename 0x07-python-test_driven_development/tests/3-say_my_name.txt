@@ -1,44 +1,36 @@
-say_my_name module
-------------------
+The ``3-say_my_name`` module
+======================
 
-Importing "say_my_name"
------------------------
+Using ``say_my_name``
+-------------------
 
-Import file
->>> say_my_name = __import__('3-say_my_name').say_my_name
+This test text file is for function say_my_name.  First import
+``say_my_name`` from the ``3-say_my_name`` module:
 
-Testing for a valid input
->>> say_my_name("Fady", "Hanna")
-My name is Fady Hanna
+    >>> say_my_name = __import__('3-say_my_name').say_my_name
 
-Testing for second valid input
->>> say_my_name("Fady", "Hanna")
-My name is Fady Hanna
+Now use it:
 
-Testing for 3rd valid input
->>> say_my_name("Fady")
-My name is Fady 
-
-Testing for invalid input
->>> say_my_name(12, "White")
-Traceback (most recent call last):
-TypeError: first_name must be a string
-
-Testing for number input
->>> say_my_name("Fady", 12)
-Traceback (most recent call last):
-TypeError: last_name must be a string
-
-Testing for two numbers
->>> say_my_name(123, 45)
-Traceback (most recent call last):
-TypeError: first_name must be a string
-
-Testing numbers as strings
->>> say_my_name("11", "06 ")
-My name is 11 06 
-
-Testing for any missing arguments
->>> say_my_name()
-Traceback (most recent call last):
-TypeError: say_my_name() missing 1 required positional argument: 'first_name'
+    >>> say_my_name("John", "Smith")
+    My name is John Smith
+    >>> say_my_name("Bob")
+    My name is Bob 
+    >>> say_my_name()
+    Traceback (most recent call last):
+    ...
+    TypeError: say_my_name() missing 1 required positional argument: 'first_name'
+    >>> say_my_name(1, "White")
+    Traceback (most recent call last):
+    ...
+    TypeError: first_name must be a string
+    >>> say_my_name("John", 2)
+    Traceback (most recent call last):
+    ...
+    TypeError: last_name must be a string
+    >>> say_my_name(["John"])
+    Traceback (most recent call last):
+    ...
+    TypeError: first_name must be a string
+    >>> st = "Jane"
+    >>> say_my_name(st)
+    My name is Jane 

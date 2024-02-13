@@ -1,11 +1,7 @@
 #!/usr/bin/python3
-
-"""
-number_of_lines Module
-"""
-
-
 def number_of_lines(filename=""):
-    """Returns  number of lines in a text file"""
+    lines = 0
     with open(filename, 'r') as f:
-        return(len(list(f)))
+        for line in f:
+            lines += 1
+    return lines

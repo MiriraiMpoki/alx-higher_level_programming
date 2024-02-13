@@ -1,122 +1,107 @@
 #!/usr/bin/python3
-
-"""
-Base Module
-"""
-
+'''Class Base'''
 import json
-import csv
 import os.path
+import csv
 
 
 class Base:
-    """The Base class"""
-
+    '''This class will be the base of all other classes in this project.
+    The goal of it is to manage id attribute in all your future classes
+    and to avoid duplicating the same code (by extension, same bugs)'''
     __nb_objects = 0
 
     def __init__(self, id=None):
-        """Intialization of the class"""
+        '''__init__ method
+        id (int) is an id of the object, assign if is sended or use the
+        number of object in the class'''
         if id is not None:
             self.id = id
         else:
             Base.__nb_objects += 1
-            self.id = Base.__nb_objects
+            self.id = self.__nb_objects
 
     @staticmethod
     def to_json_string(list_dictionaries):
-        """Returning a JSON string of list_dictionaries"""
-        if list_dictionaries is None or list_dictionaries == []:
+        '''method to_json_string
+        Args:
+            list_dictionaries (dict):
+                convert to json string'''
+        if list_dictionaries is None or len(list_dictionaries) == 0:
             return "[]"
-        if type(list_dictionaries) != list:
-            raise TypeError("list_dictionaries must be a list")
-        if any(type(x) != dict for x in list_dictionaries):
-            raise TypeError("list_dictionaries must contain dictionaries")
-        return json.dumps(list_dictionaries)
+        else:
+            return json.dumps(list_dictionaries)
 
     @classmethod
     def save_to_file(cls, list_objs):
-        """Writing a JSON string of list_objs to a file"""
-        if type(list_objs) != list and list_objs is not None:
-            raise TypeError("list_objs must be a list")
-        if list_objs is None or list_objs == []:
-            output = []
-        else:
-            first = type(list_objs[0])
-            if any(type(x) != first for x in list_objs):
-                raise ValueError("all elements of list_objs must match")
-            output = [c.to_dictionary() for c in list_objs]
-        filename = cls.__name__ + ".json"
-        with open(filename, "w") as f:
-            f.write(cls.to_json_string(output))
+        '''method save_to_file
+        Args:
+            cls -- class
+            list_objs : List of objects
+            Return: Write a file'''
+        new_list = []
+        if list_objs:
+            for li_obj in list_objs:
+                new_list.append(li_obj.to_dictionary())
+        with open(cls.__name__ + '.json', 'w') as file:
+            file.write(cls.to_json_string(new_list))
 
     @staticmethod
     def from_json_string(json_string):
-        """Returning a list of the JSON strings"""
-        if json_string is None or json_string == "":
-            return []
-        if type(json_string) != str:
-            raise TypeError("json_string must be a string")
-        loads = json.loads(json_string)
-        for d in loads:
-            if type(d) != dict:
-                raise ValueError("json_string must contain dictionaries")
-        return loads
+        '''return the new list with the json string'''
+        new_list = []
+        if json_string is None or len(json_string) == 0:
+            return new_list
+        else:
+            return json.loads(json_string)
 
     @classmethod
     def create(cls, **dictionary):
-        """Returning instance with set attributes"""
-        test_case = cls(1, 1) if cls.__name__ == "Rectangle" else cls(1)
-        test_case.update(**dictionary)
-        return test_case
+        '''create instances of the class'''
+        if cls.__name__ == "Rectangle":
+            base_obj = cls(5, 5)
+        elif cls.__name__ == "Square":
+            base_obj = cls(5)
+        base_obj.update(**dictionary)
+        return base_obj
 
     @classmethod
     def load_from_file(cls):
-        """Returning list of instances"""
-        filename = str(cls).split(".")[-1][:-2] + ".json"
-        if not os.path.exists(filename):
-            return []
-        res = []
-        with open(filename, "r") as f:
-            dicts = cls.from_json_string(f.readline())
-        for d in dicts:
-            res.append(cls.create(**d))
-        return res
+        new_list = []
+        name_file = cls.__name__ + ".json"
+        if os.path.exists(name_file):
+            with open(name_file, "r") as file:
+                string = file.read()
+                output = cls.from_json_string(string)
+                for item in output:
+                    new_list.append(cls.create(**item))
+        return new_list
 
     @classmethod
     def save_to_file_csv(cls, list_objs):
-        """CSV Format"""
-        if type(list_objs) != list and list_objs is not None \
-                or not all(isinstance(x, cls) for x in list_objs):
-            raise TypeError("list_objs must be a list")
-        filename = cls.__name__ + ".csv"
-        with open(filename, "w") as f:
-            if list_objs is not None:
-                list_objs = [x.to_dictionary() for x in list_objs]
-                rec_fields = ['id', 'width', 'height', 'x', 'y']
-                squ_fields = ['id', 'size', 'x', 'y']
-                if cls.__name__ == "Rectangle":
-                    writer = csv.DictWriter(f, fieldnames=rec_fields)
-                else:
-                    writer = csv.DictWriter(f, fieldnames=squ_fields)
-                writer.writeheader()
-                writer.writerows(list_objs)
+        '''save in csv file'''
+        name_file = cls.__name__ + ".csv"
+        new_list = []
+        if list_objs:
+            for li_obj in list_objs:
+                new_list.append(li_obj.to_dictionary())
+        with open(name_file, 'w') as file:
+            keys = new_list[0].keys()
+            writer = csv.DictWriter(file, keys)
+            writer.writeheader()
+            writer.writerows(new_list)
 
     @classmethod
     def load_from_file_csv(cls):
-        """Deserializion in CSV file"""
-        filename = cls.__name__ + ".csv"
-        rec_header = ["id", "width", "height", "x", "y"]
-        squ_header = ["id", "size", "x", "y"]
-        header = rec_header if cls.__name__ == "Rectangle" else squ_header
-        res = []
-        if os.path.exists(filename):
-            with open(filename, "r") as f:
-                reader = csv.reader(f, delimiter=',')
-                for x, row in enumerate(reader):
-                    if x > 0:
-                        new = cls(1, 1)
-                        for y, z in enumerate(row):
-                            if z:
-                                setattr(new, header[y], int(z))
-                        res.append(new)
-        return res
+        '''load from file csv'''
+        new_list = []
+        new_dict = {}
+        name_file = cls.__name__ + ".csv"
+        if os.path.exists(name_file):
+            with open(name_file, mode='r') as csv_file:
+                csv_reader = csv.DictReader(csv_file)
+                for row in csv_reader:
+                    for key, value in row.items():
+                        new_dict[key] = int(value)
+                    new_list.append(cls.create(**new_dict))
+        return new_list

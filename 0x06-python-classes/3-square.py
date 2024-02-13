@@ -1,26 +1,16 @@
 #!/usr/bin/python3
-"""
-    3-square.py
-    This module defines a square
-    return size
-"""
-
-
 class Square:
-    """Square class
-      Defining a square
-       return size
+    """Class with a instance private attribute, with optional value 0
+        validate type and value > to 0, send a message Error using raised
+        and define a method to calculate area of square
     """
     def __init__(self, size=0):
-        """Initializes the data
-           return size
-        """
-        if not isinstance(size, int):
+        if type(size) != int:
             raise TypeError("size must be an integer")
         elif size < 0:
             raise ValueError("size must be >= 0")
-        self.__size = size
+        else:
+            self.__size = size
 
     def area(self):
-        """Return the area of the square"""
-        return self.__size ** 2
+        return self.__size**2

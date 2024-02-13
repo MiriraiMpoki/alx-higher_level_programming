@@ -1,15 +1,14 @@
 #!/usr/bin/python3
-
-"""
-MyInt Module
-"""
-
-
 class MyInt(int):
-    """MyInt class"""
+    '''class MyInt inherit from int'''
+    def __init__(self, num):
+        '''init method'''
+        self.num = num
 
     def __eq__(self, other):
-        return super().__ne__(other)
+        '''overwrite eq method'''
+        return (self.num != other.num)
 
     def __ne__(self, other):
-        return super().__eq__(other)
+        '''overwrite ne method'''
+        return (self.num == self.num)

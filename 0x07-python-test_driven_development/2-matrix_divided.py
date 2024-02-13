@@ -1,37 +1,34 @@
 #!/usr/bin/python3
-"""
-    2-matrix_divided.py
-    This module contains the matrix_dividend function
+"""Module for matrix_divided
 """
 
 
 def matrix_divided(matrix, div):
+    """Function to divide a matrix by a number.
+
+    Args:
+        matrix (int, float): is a matrxi with numbers.
+        div (int, float): is number for div the matrix.
+
+    Returns:
+        matrix int, floats: New matrix with the values of div matrix in div
+        or Error message if the data entry not are numbers.
     """
-    Divide all elements of the matrix, and returns a new matrix divided by div
-    """
-    if not isinstance(matrix, list) or len(matrix) == 0:
-        raise TypeError(
-            "matrix must be a matrix (list of lists) of integers/floats")
+    new_matrix = []
+    msg = "matrix must be a matrix (list of lists) of integers/floats"
+    cur_row, prev_row = len(matrix[0]), len(matrix[0])
+    if type(div) is not int and type(div) is not float:
+        raise TypeError("div must be a number")
     for row in matrix:
-        if not isinstance(row, list) or len(row) == 0:
-            raise TypeError(
-                "matrix must be a matrix (list of lists) of integers/floats")
-        for num in row:
-            if not isinstance(num, (int, float)):
-                raise TypeError(
-                    "matrix must be a matrix (list of lists)" +
-                    " of integers/floats")
-    len_rows = list(map(lambda x: len(x), [x for x in matrix]))
-    if len_rows.count(len_rows[0]) != len(len_rows):
-        raise TypeError('Each row of the matrix must have the same size')
-    if not isinstance(div, int) and not isinstance(div, float) or div != div:
-        raise TypeError('div must be a number')
-    if div == 0:
-        raise ZeroDivisionError('division by zero')
-    new_list = []
-    for row in matrix:
+        cur_row = len(row)
+        if (cur_row != prev_row):
+            raise TypeError("Each row of the matrix must have the same size")
         new_row = []
-        for num in row:
-            new_row.append(round(num / div, 2))
-        new_list.append(new_row)
-    return new_list
+        for elem in row:
+            if type(elem) is not int and type(elem) is not float:
+                raise TypeError(msg)
+            else:
+                new_row.append(round((elem / div), 2))
+        new_matrix.append(new_row)
+        prev_row = len(row)
+    return new_matrix

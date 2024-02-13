@@ -1,24 +1,25 @@
 #!/usr/bin/python3
-"""Unittest for max_integer([..])"""
-
+"""Unittest for max_integer([..])
+"""
 import unittest
 max_integer = __import__('6-max_integer').max_integer
 
 class TestMaxInteger(unittest.TestCase):
-    """Testing for max integer"""
+
+    def test_integer(self):
+        self.assertEqual(max_integer([1, 2, 3, 4]), 4)
 
     def test_empty_list(self):
-        """Testing for an empty list"""
         self.assertEqual(max_integer(), None)
 
-    def test_valid_input(self):
-        """Testing with valid inputs"""
-        self.assertEqual(max_integer([1, 2, 3]), 3)
-        self.assertEqual(max_integer([-1, -5, -4, 0]), 0)
-        self.assertEqual(max_integer([0, 0, 0, 0]), 0)
-        self.assertEqual(max_integer([100]), 100)
-        self.assertEqual(max_integer([1, 3, 2]), 3)
-        self.assertEqual(max_integer([429509, 3424, -1]), 429509)
+    def test_unordered_list(self):
+        self.assertEqual(max_integer([1, 3, 4, 2]), 4)
 
-if __name__ == '__main__':
-        unittest.main()
+    def test_strings_in_list(self):
+        with self.assertRaises(TypeError) as msg:
+            max_integer([1, "a", 2])
+            self.assertEqual(msg.message, "unorderable types: str() > int()")
+
+    def test_tuple_instead_list(self):
+        self.assertEqual(max_integer((1, 2)), 2)
+

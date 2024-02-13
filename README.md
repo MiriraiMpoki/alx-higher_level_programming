@@ -1,2 +1,1 @@
-# alx-higher_level_programming
-learning python
+## This is a repository for python code at holberton school 

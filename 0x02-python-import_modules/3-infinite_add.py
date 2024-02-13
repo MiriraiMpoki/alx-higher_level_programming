@@ -1,13 +1,11 @@
 #!/usr/bin/python3
-import sys
-
-
-def main():
-    ar = sys.argv
-    ar = ar[1:]
-    sum = 0
-    for i in ar:
-        sum += int(i)
-    print('{}'.format(sum))
 if __name__ == '__main__':
-    main()
+    import sys
+    sum = 0
+    argument = len(sys.argv)
+    if argument == 1:
+        print(0)
+    elif argument >= 2:
+        for i in range(1, argument):
+            sum = sum + int(sys.argv[i])
+        print("{:d}".format(sum))

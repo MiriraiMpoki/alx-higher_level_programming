@@ -1,13 +1,8 @@
 #!/usr/bin/python3
-
-"""
-MyList module
-"""
-
-
 class MyList(list):
-    """MyList class"""
-
+    '''Class Mylist inherit from list class'''
     def print_sorted(self):
-        """Prints the list sorted in ascending order"""
-        print(sorted(self))
+        '''print_sorted use the sort method of the super class'''
+        new_list = self[:]
+        new_list.sort()
+        print(new_list)
